@@ -18,4 +18,9 @@ class Marca extends Model
             'activo' => 'boolean',
         ];
     }
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
 }

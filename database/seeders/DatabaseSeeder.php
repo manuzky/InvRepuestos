@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CategoriasSeeder::class,
             MarcasSeeder::class,
             ProveedoresSeeder::class,
+            ProductosSeeder::class,
         ]);
     }
 }

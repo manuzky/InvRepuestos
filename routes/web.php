@@ -8,6 +8,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ProductoController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     })->name('inicio');
 
     // -------------------------------------------- Inventario --------------------------------------------
+    Route::resource('productos', ProductoController::class)->except(['show'])->parameters(['productos' => 'producto']);
+    Route::patch('/productos/{producto}/estado', [ProductoController::class, 'toggleStatus'])->name('productos.toggle-status');
+
     Route::resource('categorias', CategoriaController::class)->except(['show']);
     Route::patch('/categorias/{categoria}/estado', [CategoriaController::class, 'toggleStatus'])->name('categorias.toggle-status');
 

@@ -175,9 +175,10 @@
             <div class="sidebar-section">Inventario</div>
 
             @can('productos.view')
-                <a href="#" class="sidebar-link">
+                <a href="{{ route('productos.index') }}"
+                class="sidebar-link {{ request()->routeIs('productos.*') ? 'active' : '' }}">
                     <i class="bi bi-box-seam"></i>
-                    Productos
+                    <span>Productos</span>
                 </a>
             @endcan
 
