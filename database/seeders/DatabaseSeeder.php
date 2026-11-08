@@ -12,6 +12,10 @@ class DatabaseSeeder extends Seeder
             CargosSeeder::class,
             RolesYPermisosSeeder::class,
             AdministradorSeeder::class,
+
+            CategoriasSeeder::class,
+            MarcasSeeder::class,
+            ProveedoresSeeder::class,
         ]);
     }
 }

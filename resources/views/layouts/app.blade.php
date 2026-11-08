@@ -171,27 +171,40 @@
 
         {{---------------------------------------------------------------------------------------}}
 
-        <div class="sidebar-section">Inventario</div>
+        @if(auth()->user()->canAny(['productos.view', 'categorias.view', 'marcas.view', 'proveedores.view']))
+            <div class="sidebar-section">Inventario</div>
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-box-seam"></i>
-            Productos
-        </a>
+            @can('productos.view')
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-box-seam"></i>
+                    Productos
+                </a>
+            @endcan
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-tags"></i>
-            Categorías
-        </a>
+            @can('categorias.view')
+                <a href="{{ route('categorias.index') }}"
+                class="sidebar-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}">
+                    <i class="bi bi-tags"></i>
+                    Categorías
+                </a>
+            @endcan
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-award"></i>
-            Marcas
-        </a>
+            @can('marcas.view')
+                <a href="{{ route('marcas.index') }}"
+                class="sidebar-link {{ request()->routeIs('marcas.*') ? 'active' : '' }}">
+                    <i class="bi bi-award"></i>
+                    Marcas
+                </a>
+            @endcan
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-truck"></i>
-            Proveedores
-        </a>
+            @can('proveedores.view')
+                <a href="{{ route('proveedores.index') }}"
+                class="sidebar-link {{ request()->routeIs('proveedores.*') ? 'active' : '' }}">
+                    <i class="bi bi-truck"></i>
+                    Proveedores
+                </a>
+            @endcan
+        @endif
 
         {{---------------------------------------------------------------------------------------}}
 
