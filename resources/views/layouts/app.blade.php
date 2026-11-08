@@ -209,22 +209,31 @@
 
         {{---------------------------------------------------------------------------------------}}
 
-        <div class="sidebar-section">Operaciones</div>
+        @if(auth()->user()->canAny(['entradas.view', 'ventas.view', 'clientes.view']))
+            <div class="sidebar-section">Operaciones</div>
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-box-arrow-in-down"></i>
-            Entradas
-        </a>
+            @can('entradas.view')
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-box-arrow-in-down"></i>
+                    Entradas
+                </a>
+            @endcan
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-cart3"></i>
-            Ventas
-        </a>
+            @can('ventas.view')
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-cart3"></i>
+                    Ventas
+                </a>
+            @endcan
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-person-lines-fill"></i>
-            Clientes
-        </a>
+            @can('clientes.view')
+                <a href="{{ route('clientes.index') }}"
+                class="sidebar-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-lines-fill"></i>
+                    Clientes
+                </a>
+            @endcan
+        @endif
 
         {{---------------------------------------------------------------------------------------}}
 

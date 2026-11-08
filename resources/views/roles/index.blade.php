@@ -47,7 +47,7 @@
 
                                 <td class="text-end">
                                     @can('roles.edit')
-                                        <a href="{{ route('roles.edit', $rol) }}"
+                                        <a href="{{ route('roles.edit', ['role' => $rol->id]) }}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>
@@ -55,8 +55,9 @@
 
                                     @can('roles.delete')
                                         @if ($rol->name !== 'Administrador')
-                                            <form action="{{ route('roles.destroy', $rol) }}"
-                                                  method="POST" class="d-inline"
+                                            <form action="{{ route('roles.destroy', ['role' => $rol->id]) }}"
+                                                  method="POST"
+                                                  class="d-inline"
                                                   onsubmit="return confirm('¿Eliminar este rol?')">
                                                 @csrf
                                                 @method('DELETE')

@@ -61,9 +61,11 @@ class RolController extends Controller implements HasMiddleware
         return redirect()->route('roles.index')->with('success', 'Rol creado correctamente.');
     }
 
-    public function edit(Role $rol)
+    public function edit(Role $role)
     {
-        abort_unless($rol->guard_name === 'web', 404);
+        abort_unless($role->guard_name === 'web', 404);
+
+        $rol = $role;
 
         $permisos = $this->obtenerPermisos();
         $permisosSeleccionados = $rol->permissions->pluck('name')->all();
@@ -75,45 +77,51 @@ class RolController extends Controller implements HasMiddleware
         ));
     }
 
-    public function update(Request $request, Role $rol)
+    public function update(Request $request, Role $role)
     {
-        abort_unless($rol->guard_name === 'web', 404);
+        abort_unless($role->guard_name === 'web', 404);
 
         $datos = $request->validate([
             'name' => [
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('roles', 'name')->where('guard_name', 'web')->ignore($rol->id),
+                Rule::unique('roles', 'name')
+                    ->where('guard_name', 'web')
+                    ->ignore($role->id),
             ],
             'permissions' => ['nullable', 'array'],
             'permissions.*' => ['required', 'exists:permissions,name'],
         ]);
 
-        $rol->update([
+        $role->update([
             'name' => $datos['name'],
         ]);
 
-        $rol->syncPermissions($datos['permissions'] ?? []);
+        $role->syncPermissions($datos['permissions'] ?? []);
 
-        return redirect()->route('roles.index')->with('success', 'Rol actualizado correctamente.');
+        return redirect()
+            ->route('roles.index')
+            ->with('success', 'Rol actualizado correctamente.');
     }
 
-    public function destroy(Role $rol)
+    public function destroy(Role $role)
     {
-        abort_unless($rol->guard_name === 'web', 404);
+        abort_unless($role->guard_name === 'web', 404);
 
-        if ($rol->name === 'Administrador') {
+        if ($role->name === 'Administrador') {
             return back()->with('error', 'No puedes eliminar el rol Administrador.');
         }
 
-        if (User::role($rol->name)->exists()) {
+        if (User::role($role->name)->exists()) {
             return back()->with('error', 'No puedes eliminar un rol que está asignado a usuarios.');
         }
 
-        $rol->delete();
+        $role->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
+        return redirect()
+            ->route('roles.index')
+            ->with('success', 'Rol eliminado correctamente.');
     }
 
     private function obtenerPermisos()

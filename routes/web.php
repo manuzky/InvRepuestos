@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ClienteController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/proveedores/{proveedor}/estado', [ProveedorController::class, 'toggleStatus'])->name('proveedores.toggle-status');
 
     // -------------------------------------------- Operaciones --------------------------------------------
+    Route::resource('clientes', ClienteController::class)->except(['show'])->parameters(['clientes' => 'cliente']);
+    Route::patch('/clientes/{cliente}/estado', [ClienteController::class, 'toggleStatus'])->name('clientes.toggle-status');
 
     // -------------------------------------------- Administración --------------------------------------------
     Route::resource('usuarios', UsuarioController::class)->except(['show', 'destroy']);
